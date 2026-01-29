@@ -1,0 +1,2 @@
+# This directory stores trained model files
+# .pkl for XGBoost, .h5 for LSTM
