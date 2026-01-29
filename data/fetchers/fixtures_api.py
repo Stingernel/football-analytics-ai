@@ -25,6 +25,7 @@ SPORT_KEYS = {
     "Ligue 1": "soccer_france_ligue_one",
     "Champions League": "soccer_uefa_champs_league",
     "Europa League": "soccer_uefa_europa_league",
+    "Conference League": "soccer_uefa_euro_conference",
 }
 
 # Premier League teams for demo mode
@@ -211,7 +212,10 @@ class FixturesAPI:
     def get_all_upcoming(self, leagues: List[str] = None, limit_per_league: int = 5) -> List[Dict]:
         """Get upcoming matches from multiple leagues."""
         if leagues is None:
-            leagues = ["Premier League", "La Liga", "Bundesliga", "Serie A", "Ligue 1"]
+            leagues = [
+                "Premier League", "La Liga", "Bundesliga", "Serie A", "Ligue 1",
+                "Champions League", "Europa League", "Conference League"
+            ]
         
         all_matches = []
         for league in leagues:

@@ -831,6 +831,10 @@ def show_predict():
                                     home_rating = team_ratings.get(match['home_team'], 1000)
                                     away_rating = team_ratings.get(match['away_team'], 1000)
                                     
+                                    # Initialize alert variables (not used in Tomorrow tab)
+                                    alert_badge = ""
+                                    market_status = ""
+                                    
                                     result_map = {'H': '🏠', 'D': '🤝', 'A': '✈️'}
                                     result_emoji = result_map.get(match.get('predicted_result', ''), '⚽')
                                     stars = "⭐" * match.get('rating_stars', 1)
