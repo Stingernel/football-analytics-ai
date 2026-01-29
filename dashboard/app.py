@@ -746,40 +746,9 @@ def show_predict():
                                     if is_value and best_bet:
                                         value_bet_html = f' | <span style="color: #00b894;">✅ <b>VALUE BET</b>: {best_bet} @ {round(match.get("best_bet_odds", 0), 2)} (Edge: +{edge:.1f}%, Stake: ${stake:.0f})</span>'
                                     
-                                    # Match card
-                                    # Match card with Glassmorphism
-                                    st.markdown(f"""
-                                    <div class="metric-card" style="border-left: 4px solid {border_color};">
-                                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                            <div style="flex: 2;">
-                                                <div style="display: flex; align-items: center; gap: 10px;">
-                                                    <h3 style="margin: 0; font-size: 1.1rem; color: white;">{match['home_team']} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({home_rating})</span></h3>
-                                                    <span style="color: #888; font-size: 0.9rem;">vs</span>
-                                                    <h3 style="margin: 0; font-size: 1.1rem; color: white;">{match['away_team']} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({away_rating})</span></h3>
-                                                    {alert_badge}
-                                                </div>
-                                                <div style="margin-top: 8px; display:flex; gap:15px; align-items:center;">
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🏠 {match['home_odds']:.2f}</span>
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🤝 {match['draw_odds']:.2f}</span>
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">✈️ {match['away_odds']:.2f}</span>
-                                                    {market_status}
-                                                </div>
-                                            </div>
-                                            <div style="text-align: right; flex: 1;">
-                                                <div style="font-size: 1.5rem; margin-bottom: 4px;">{result_emoji}</div>
-                                                <div style="font-weight: bold; font-size: 1.1rem;" class="gradient-text">{conf:.0f}%</div>
-                                                <div style="color: #f1c40f; font-size: 0.8rem; margin-top: 2px;">{stars}</div>
-                                            </div>
-                                        </div>
-                                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-size: 0.9rem; color: #ccc;">
-                                                <b>Prediction:</b> {result_emoji} {match.get('predicted_result', 'N/A')} &nbsp;|&nbsp; 
-                                                <b>Rating:</b> {rating_label}
-                                            </span>
-                                            {value_bet_html}
-                                        </div>
-                                    </div>
-                                    """, unsafe_allow_html=True)
+                                    # Match card (single-line for Railway compatibility)
+                                    card_html = f'<div class="metric-card" style="border-left: 4px solid {border_color}; margin-bottom: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div style="flex: 2;"><div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><h3 style="margin: 0; font-size: 1.1rem; color: white;">{match["home_team"]} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({home_rating})</span></h3><span style="color: #888; font-size: 0.9rem;">vs</span><h3 style="margin: 0; font-size: 1.1rem; color: white;">{match["away_team"]} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({away_rating})</span></h3>{alert_badge}</div><div style="margin-top: 8px; display:flex; gap:15px; align-items:center; flex-wrap: wrap;"><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🏠 {match["home_odds"]:.2f}</span><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🤝 {match["draw_odds"]:.2f}</span><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">✈️ {match["away_odds"]:.2f}</span>{market_status}</div></div><div style="text-align: right; flex: 1;"><div style="font-size: 1.5rem; margin-bottom: 4px;">{result_emoji}</div><div style="font-weight: bold; font-size: 1.1rem; color: #00C9FF;">{conf:.0f}%</div><div style="color: #f1c40f; font-size: 0.8rem; margin-top: 2px;">{stars}</div></div></div><div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;"><span style="font-size: 0.9rem; color: #ccc;"><b>Prediction:</b> {result_emoji} {match.get("predicted_result", "N/A")} | <b>Rating:</b> {rating_label}</span>{value_bet_html}</div></div>'
+                                    st.markdown(card_html, unsafe_allow_html=True)
                         
                         # Summary stats
                         value_bets = [m for m in matches if m.get('recommended')]
@@ -858,39 +827,9 @@ def show_predict():
                                     conf = match.get('confidence', 0) * 100
                                     value_bet_html = f' | <span style="color: #00b894;">✅ <b>VALUE</b>: {best_bet} (+{edge:.1f}%)</span>' if is_value else ""
                                     
-                                    # Match card with Glassmorphism
-                                    st.markdown(f"""
-                                    <div class="metric-card" style="border-left: 4px solid {border_color};">
-                                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                            <div style="flex: 2;">
-                                                <div style="display: flex; align-items: center; gap: 10px;">
-                                                    <h3 style="margin: 0; font-size: 1.1rem; color: white;">{match['home_team']} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({home_rating})</span></h3>
-                                                    <span style="color: #888; font-size: 0.9rem;">vs</span>
-                                                    <h3 style="margin: 0; font-size: 1.1rem; color: white;">{match['away_team']} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({away_rating})</span></h3>
-                                                    {alert_badge}
-                                                </div>
-                                                <div style="margin-top: 8px; display:flex; gap:15px; align-items:center;">
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🏠 {match['home_odds']:.2f}</span>
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🤝 {match['draw_odds']:.2f}</span>
-                                                    <span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">✈️ {match['away_odds']:.2f}</span>
-                                                    {market_status}
-                                                </div>
-                                            </div>
-                                            <div style="text-align: right; flex: 1;">
-                                                <div style="font-size: 1.5rem; margin-bottom: 4px;">{result_emoji}</div>
-                                                <div style="font-weight: bold; font-size: 1.1rem;" class="gradient-text">{conf:.0f}%</div>
-                                                <div style="color: #f1c40f; font-size: 0.8rem; margin-top: 2px;">{stars}</div>
-                                            </div>
-                                        </div>
-                                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="font-size: 0.9rem; color: #ccc;">
-                                                <b>Prediction:</b> {result_emoji} {match.get('predicted_result', 'N/A')} &nbsp;|&nbsp; 
-                                                <b>Rating:</b> {rating_label}
-                                            </span>
-                                            {value_bet_html}
-                                        </div>
-                                    </div>
-                                    """, unsafe_allow_html=True)
+                                    # Match card (single-line for Railway compatibility)
+                                    card_html = f'<div class="metric-card" style="border-left: 4px solid {border_color}; margin-bottom: 10px;"><div style="display: flex; justify-content: space-between; align-items: flex-start;"><div style="flex: 2;"><div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><h3 style="margin: 0; font-size: 1.1rem; color: white;">{match["home_team"]} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({home_rating})</span></h3><span style="color: #888; font-size: 0.9rem;">vs</span><h3 style="margin: 0; font-size: 1.1rem; color: white;">{match["away_team"]} <span style="color:#aaa;font-weight:normal;font-size:0.8em">({away_rating})</span></h3>{alert_badge}</div><div style="margin-top: 8px; display:flex; gap:15px; align-items:center; flex-wrap: wrap;"><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🏠 {match["home_odds"]:.2f}</span><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">🤝 {match["draw_odds"]:.2f}</span><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:6px; font-size: 0.8rem; color:#ddd;">✈️ {match["away_odds"]:.2f}</span>{market_status}</div></div><div style="text-align: right; flex: 1;"><div style="font-size: 1.5rem; margin-bottom: 4px;">{result_emoji}</div><div style="font-weight: bold; font-size: 1.1rem; color: #00C9FF;">{conf:.0f}%</div><div style="color: #f1c40f; font-size: 0.8rem; margin-top: 2px;">{stars}</div></div></div><div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;"><span style="font-size: 0.9rem; color: #ccc;"><b>Prediction:</b> {result_emoji} {match.get("predicted_result", "N/A")} | <b>Rating:</b> {rating_label}</span>{value_bet_html}</div></div>'
+                                    st.markdown(card_html, unsafe_allow_html=True)
             except Exception as e:
                 st.error(f"Error loading tomorrow's fixtures: {e}")
 
